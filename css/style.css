@@ -1,0 +1,9 @@
+#contianer {
+  display: grid;
+  grid-template-rows: 250px, 75vh;
+}
+
+#genderCatagoreyOptions,
+#educationCatagoreyOptions {
+  display: none;
+}

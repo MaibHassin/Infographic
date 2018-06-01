@@ -1,0 +1,83 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Maib Hassin Syed | Interactive Infographic</title>
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div id="container">
+
+    <div id="optionsMenu">
+      <select id="listCountries">
+        <option value="26">All countries average</option>
+        <option value="0">Belgium</option>
+        <option value="1">Bulgaria</option>
+        <option value="2">Cyprus</option>
+        <option value="3">Denmark</option>
+        <option value="4">Germany</option>
+        <option value="5">Estonia</option>
+        <option value="6">Finland</option>
+        <option value="7">France</option>
+        <option value="8">Hungary</option>
+        <option value="9">Ireland</option>
+        <option value="10">Iceland</option>
+        <option value="11">Italy</option>
+        <option value="12">Kosovo</option>
+        <option value="13">Lituania</option>
+        <option value="14">The Netherlands</option>
+        <option value="15">Norway</option>
+        <option value="16">Ukrain</option>
+        <option value="17">Poland</option>
+        <option value="18">Portugal</option>
+        <option value="19">Slovenia</option>
+        <option value="20">Slovakia</option>
+        <option value="21">Spain</option>
+        <option value="22">Czech Republic</option>
+        <option value="23">United Kingdom</option>
+        <option value="24">Sweden</option>
+        <option value="25">Switzerland</option>
+      </select>
+
+      <select id="typeGraph">
+        <option value="bar">Bar Graph</option>
+        <option value="radar">Radar Graph</option>
+      </select>
+
+      <label><input type="radio" name="catagoreyType" id="allData" checked="checked"> All</label>
+      <label><input type="radio" name="catagoreyType" id="genderData"> Gender</label>
+      <label><input type="radio" name="catagoreyType" id="educationData"> Education Level</label>
+
+
+      <div id="genderCatagoreyOptions">
+        <label><input type="checkbox" name="genderOption" id="allGenders" checked> All</label>
+        <label><input type="checkbox" name="genderOption" id="maleGender" checked> Male</label>
+        <label><input type="checkbox" name="genderOption" id="femaleGender" checked> Female</label>
+      </div>
+
+      <div id="educationCatagoreyOptions">
+        <label><input type="checkbox" name="educationOption" id="allEducation"> Education level: all</label>
+        <label><input type="checkbox" name="educationOption" id="lowEducation"> Education level: Low</label>
+        <label><input type="checkbox" name="educationOption" id="secondaryEducation"> Education level: Secondary</label>
+        <label><input type="checkbox" name="educationOption" id="highEducation"> Education level: High</label>
+      </div>
+
+    </div>
+
+    <div id="charts">
+      <canvas id="myChart"></canvas>
+    </div>
+
+  </div>
+
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> <!-- Jquery cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script> <!-- Chart.js cdn -->
+  <script src="js/script.js"></script> <!-- Linking javascript file -->
+</body>
+</html>
