@@ -1,6 +1,6 @@
 #contianer {
   display: grid;
-  grid-template-rows: 250px, 75vh;
+  grid-template-rows: 25vh, 75vh;
 }
 
 #genderCatagoreyOptions,
