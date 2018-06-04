@@ -13,66 +13,22 @@ $(document).ready(function() {
 
       showData(data.value, listCountriesValue, newChart, listTypeGraph , 'T009002');
 
-      $('#listCountries').add('#typeGraph').add('#typeGender').change(function() {
+      $('#listCountries').add('#typeGraph').change(function() {
         if($('#allData').is(':checked')){
-          listCountriesValue = $('#listCountries').val();
-          listTypeGraph = $('#typeGraph').val();
-          listGenderType = $('#typeGender').val();
-          showData(data.value, listCountriesValue, newChart, listTypeGraph, 'T009002');
-        }
-      });
-
-      $('input[name="catagoreyType"]').change(function() {
-        if($('#genderData').is(':checked')) {
-          $('#educationCatagoreyOptions').hide();
-          $('#genderCatagoreyOptions').show();
-          listCountriesValue = $('#listCountries').val();
-          listTypeGraph = $('#typeGraph').val();
-          listGenderType = $('#typeGender').val();
-          showData(data.value, listCountriesValue, newChart, listTypeGraph, 'both');
-          $('#allGenders').change(function() {
-            if($('#allGenders').is(':checked')) {
-              $('#maleGender').prop('checked', true);
-              $('#femaleGender').prop('checked', true);
-              listCountriesValue = $('#listCountries').val();
-              listTypeGraph = $('#typeGraph').val();
-              listGenderType = $('#typeGender').val();
-              showData(data.value, listCountriesValue, newChart, listTypeGraph, 'both');
-            } else {
-              $('#maleGender').prop('checked', false);
-              $('#femaleGender').prop('checked', false);
-            }
-          });
-
-          $('#maleGender').add('#femaleGender').change(function() {
-            if(!$('#maleGender').is(':checked') || !$('#femaleGender').is(':checked')) {
-              $('#allGenders').prop('checked', false);
-              if($('#maleGender').is(':checked')) {
-                listCountriesValue = $('#listCountries').val();
-                listTypeGraph = $('#typeGraph').val();
-                listGenderType = $('#typeGender').val();
-                showData(data.value, listCountriesValue, newChart, listTypeGraph, '3000   ');
-              }
-
-              if($('#femaleGender').is(':checked')) {
-                console.log('works');
-                listCountriesValue = $('#listCountries').val();
-                listTypeGraph = $('#typeGraph').val();
-                listGenderType = $('#typeGender').val();
-                showData(data.value, listCountriesValue, newChart, listTypeGraph, '4000   ');
-              }
-            } else if ($('#maleGender').is(':checked') && $('#femaleGender').is(':checked')) {
-              $('#allGenders').prop('checked', true);
-            }
-          });
+          showGraphData('T009002');
+        } else if ($('#genderData').is(':checked')) {
+          showGraphData('bothGenders');
         } else if ($('#educationData').is(':checked')) {
-          $('#genderCatagoreyOptions').hide();
-          $('#educationCatagoreyOptions').show();
-        } else {
-          $('#genderCatagoreyOptions').hide();
-          $('#educationCatagoreyOptions').hide();
+          showGraphData('allEducation');
         }
       });
+
+      function showGraphData(personalCharacheristicsValue) {
+        listCountriesValue = $('#listCountries').val();
+        listTypeGraph = $('#typeGraph').val();
+        listGenderType = $('#typeGender').val();
+        showData(data.value, listCountriesValue, newChart, listTypeGraph, personalCharacheristicsValue);
+      }
     },
     error: function() {
       showError();
@@ -128,50 +84,23 @@ $(document).ready(function() {
 
     var countryValues;
 
+    var all = [], dataValues;
+
+    var graphDataValues =[
+      otherPeopleData[i], legalSystemData[i], policeData[i],
+      politiciansData[i], parliamentData[i], polititcalPartiesData[i],
+      europeanParliamentData[i], unitedNationsData[i]
+    ];
+
     if(personalChar == allData) {
-      showAllData(allData);
-
-      var all = {
-        label: '2012 - ' + countryName[i] + ' percentage of people with trust in',
-        data:[
-          otherPeopleData[i], legalSystemData[i], policeData[i],
-          politiciansData[i], parliamentData[i], polititcalPartiesData[i],
-          europeanParliamentData[i], unitedNationsData[i]
-        ]
-      };
-
-
-      showAllData(maleData);
-      var all2 = {
-        label: '2012 - ' + countryName[i] + ' percentage2 of people with trust in',
-        data:[
-          otherPeopleData[i], legalSystemData[i], policeData[i],
-          politiciansData[i], parliamentData[i], polititcalPartiesData[i],
-          europeanParliamentData[i], unitedNationsData[i]
-        ]
-      };
-      if(window.bar != undefined) {
-        window.bar.destroy();
-      }
-
-      var test = {
-        type: graphType,
-        data: {
-          labels:[
-            'Other People', 'Legal System', 'Police',
-            'Politicians', 'Parliment', 'Political Parties',
-            'European Parliment', 'United Nations'
-          ],
-          datasets: [all, all2]
-        },
-        options: {}
-      };
-      window.bar = new Chart(myChart, test);
+      graphAllData(personalChar);
+    } else if(personalChar == 'bothGenders') {
+      graphGenderData(personalChar);
+    } else if (personalChar == 'allEducation') {
+      graphEducationData(personalChar);
     }
 
-
-
-    function showAllData(test) {
+    function showAllData(personalCharachter, val) {
       var otherPeopleTotal = 0,
           legalSystemTotal = 0,
           policeTotal = 0,
@@ -181,6 +110,15 @@ $(document).ready(function() {
           europeanParliamentTotal = 0,
           unitedNationsTotal = 0;
 
+      otherPeopleData = [];
+      legalSystemData = [];
+      policeData = [];
+      politiciansData = [];
+      parliamentData = [];
+      polititcalPartiesData = [];
+      europeanParliamentData = [];
+      unitedNationsData = [];
+
       $(data).each(function(index, value) {
         countryValues = value.Countries != 'L008635' &&
                         value.Countries != 'L008724' &&
@@ -188,27 +126,26 @@ $(document).ready(function() {
                         value.Countries != 'L008654' &&
                         value.Countries != 'L008709';
 
-        if(value.Periods == '2012JJ00' &&
-          countryValues) {
-            if(value.PersonalCharacteristics == test){
-              otherPeopleData.push(value.OtherPeople_9);
-              legalSystemData.push(value.LegalSystem_10);
-              policeData.push(value.Police_11);
-              politiciansData.push(value.Politicians_12);
-              parliamentData.push(value.Parliament_13);
-              polititcalPartiesData.push(value.PoliticalParties_14);
-              europeanParliamentData.push(value.EuropeanParliament_15);
-              unitedNationsData.push(value.UnitedNations_16);
+        if(value.Periods == '2012JJ00' && countryValues) {
+          if(value.PersonalCharacteristics == personalCharachter){
+            otherPeopleData.push(value.OtherPeople_9);
+            legalSystemData.push(value.LegalSystem_10);
+            policeData.push(value.Police_11);
+            politiciansData.push(value.Politicians_12);
+            parliamentData.push(value.Parliament_13);
+            polititcalPartiesData.push(value.PoliticalParties_14);
+            europeanParliamentData.push(value.EuropeanParliament_15);
+            unitedNationsData.push(value.UnitedNations_16);
 
-              otherPeopleTotal += value.OtherPeople_9;
-              legalSystemTotal += value.LegalSystem_10;
-              policeTotal += value.Police_11;
-              politiciansTotal += value.Politicians_12;
-              parliamentTotal += value.Parliament_13;
-              polititcalPartiesTotal += value.PoliticalParties_14;
-              europeanParliamentTotal += value.EuropeanParliament_15;
-              unitedNationsTotal += value.UnitedNations_16;
-            }
+            otherPeopleTotal += value.OtherPeople_9;
+            legalSystemTotal += value.LegalSystem_10;
+            policeTotal += value.Police_11;
+            politiciansTotal += value.Politicians_12;
+            parliamentTotal += value.Parliament_13;
+            polititcalPartiesTotal += value.PoliticalParties_14;
+            europeanParliamentTotal += value.EuropeanParliament_15;
+            unitedNationsTotal += value.UnitedNations_16;
+          }
         }
       });
       otherPeopleData[26] = otherPeopleTotal/26;
@@ -219,10 +156,126 @@ $(document).ready(function() {
       polititcalPartiesData[26] = polititcalPartiesTotal/26;
       europeanParliamentData[26] = europeanParliamentTotal/26;
       unitedNationsData[26] = unitedNationsTotal/26;
+
+      all[val] = {
+        label: '2012 - ' + countryName[i] + ' percentage of people with trust in',
+        data:[
+          otherPeopleData[i], legalSystemData[i], policeData[i],
+          politiciansData[i], parliamentData[i], polititcalPartiesData[i],
+          europeanParliamentData[i], unitedNationsData[i]
+        ]
+      };
+    }
+
+    function graphAllData(PersonalCharacteristicsCondition) {
+      showAllData(PersonalCharacteristicsCondition, 0);
+      if(window.bar != undefined) {
+        window.bar.destroy();
+      }
+
+      dataValues = {
+        type: graphType,
+        data: {
+          labels:[
+            'Other People', 'Legal System', 'Police',
+            'Politicians', 'Parliment', 'Political Parties',
+            'European Parliment', 'United Nations'
+          ],
+          datasets: [all[0]]
+        },
+        options: {}
+      };
+      window.bar = new Chart(myChart, dataValues);
+    }
+
+    function graphGenderData(PersonalCharacteristicsCondition) {
+      if(PersonalCharacteristicsCondition == 'onlyMale') {
+        showAllData(maleData, 0);
+        if(window.bar != undefined) {
+          window.bar.destroy();
+        }
+        dataValues = {
+          type: graphType,
+          data: {
+            labels:[
+              'Other People', 'Legal System', 'Police',
+              'Politicians', 'Parliment', 'Political Parties',
+              'European Parliment', 'United Nations'
+            ],
+            datasets: [all[0]]
+          },
+          options: {}
+        };
+        window.bar = new Chart(myChart, dataValues);
+      } else if (PersonalCharacteristicsCondition == 'onlyFemale') {
+        showAllData(femaleData, 0);
+        if(window.bar != undefined) {
+          window.bar.destroy();
+        }
+
+        dataValues = {
+          type: graphType,
+          data: {
+            labels:[
+              'Other People', 'Legal System', 'Police',
+              'Politicians', 'Parliment', 'Political Parties',
+              'European Parliment', 'United Nations'
+            ],
+            datasets: [all[0]]
+          },
+          options: {}
+        };
+        window.bar = new Chart(myChart, dataValues);
+      } else if (PersonalCharacteristicsCondition == 'bothGenders') {
+        showAllData(maleData, 0);
+        showAllData(femaleData, 1);
+
+        if(window.bar != undefined) {
+          window.bar.destroy();
+        }
+
+        dataValues = {
+          type: graphType,
+          data: {
+            labels:[
+              'Other People', 'Legal System', 'Police',
+              'Politicians', 'Parliment', 'Political Parties',
+              'European Parliment', 'United Nations'
+            ],
+            datasets: [all[0], all[1]]
+          },
+          options: {}
+        };
+        window.bar = new Chart(myChart, dataValues);
+      }
+    }
+
+    function graphEducationData(PersonalCharacteristicsCondition) {
+      if(PersonalCharacteristicsCondition == 'allEducation') {
+        showAllData(lowEducationData, 0);
+        showAllData(secondaryEducationData, 1);
+        showAllData(highEducationData, 2);
+
+        if(window.bar != undefined) {
+          window.bar.destroy();
+        }
+
+        dataValues = {
+          type: graphType,
+          data: {
+            labels:[
+              'Other People', 'Legal System', 'Police',
+              'Politicians', 'Parliment', 'Political Parties',
+              'European Parliment', 'United Nations'
+            ],
+            datasets: [all[0], all[1], all[2]]
+          },
+          options: {}
+        };
+        window.bar = new Chart(myChart, dataValues);
+      }
     }
   }
-
-
 
   function showError() {
     $('#content').html('Could not load the data, please refresh the page');
