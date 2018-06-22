@@ -1,9 +1,57 @@
-#contianer {
+body {
+  font-family: 'Open Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+#welcome {
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+  text-align: center;
+}
+
+#welcome p {
+  width: 600px;
+  margin: auto;
+  text-align: justify;
+  text-align-last: center;
+  margin-bottom: 20px;
+}
+
+#welcome a {
+  text-decoration: none;
+  color: #337c24;
+  border: 1px solid #337c24;
+  background-color: rgba(51, 124, 36, 0.5);
+  border-radius: 3px;
+  padding: 5px;
+}
+
+#welcome ul {
+  text-align: center;
+  list-style-position: inside;
+}
+
+#container {
   display: grid;
-  grid-template-rows: 25vh, 75vh;
+  grid-template-rows: 0.5fr 4fr;
+  justify-items: center;
 }
 
 #genderCatagoreyOptions,
 #educationCatagoreyOptions {
   display: none;
+}
+
+#optionsMenu {
+  grid-row: 1 / 2;
+  padding-top: 5px;
+}
+
+#charts {
+  grid-row: 2 / 3;
+  position: relative;
+  width: 60vw;
+  margin: auto;
+  margin-bottom: 50px;
 }

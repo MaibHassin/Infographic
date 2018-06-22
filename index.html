@@ -8,9 +8,22 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 
 <body>
+
+  <div id="welcome">
+    <h1>Welcome</h1>
+    <h2>Infographic by Maib Hassin Syed</h2>
+    <hr>
+    <p>The infographic shows the data of Europe's people trust in other people and different organizations in year 2012.</p>
+    <p>The data can be seen with all the charachteristics or there is also option to just see data based on male and female gender or data based on the education levels.</p>
+    <p>Data is also presented in different colors based on the filter selection</p>
+    <p>There are 2 different types of graphs available Bar graph and Radar graph </p>
+    <a href="#container">Go to infographic</a>
+  </div>
 
   <div id="container">
 
@@ -56,12 +69,11 @@
 
 
       <div id="genderCatagoreyOptions">
-        <label><input type="checkbox" name="genderOption" id="maleGender" value="1" checked> Male</label>
-        <label><input type="checkbox" name="genderOption" id="femaleGender" value="2" checked> Female</label>
+        <label><input type="checkbox" name="genderOption" id="maleGender" checked> Male</label>
+        <label><input type="checkbox" name="genderOption" id="femaleGender" checked> Female</label>
       </div>
 
       <div id="educationCatagoreyOptions">
-        <label><input type="checkbox" name="educationOption" id="allEducation" checked> Education level: all</label>
         <label><input type="checkbox" name="educationOption" id="lowEducation" checked> Education level: Low</label>
         <label><input type="checkbox" name="educationOption" id="secondaryEducation" checked> Education level: Secondary</label>
         <label><input type="checkbox" name="educationOption" id="highEducation" checked> Education level: High</label>
